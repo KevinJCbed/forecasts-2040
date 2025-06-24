@@ -2,6 +2,29 @@ import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
 
+# --- Simple password protection ---
+def check_password():
+    def password_entered():
+        if st.session_state["password"] == st.secrets["password"]:
+            st.session_state["authenticated"] = True
+        else:
+            st.session_state["authenticated"] = False
+            st.error("Incorrect password")
+
+    if "authenticated" not in st.session_state:
+        st.text_input("Enter password:", type="password", on_change=password_entered, key="password")
+        return False
+    elif not st.session_state["authenticated"]:
+        st.text_input("Enter password:", type="password", on_change=password_entered, key="password")
+        return False
+    else:
+        return True
+
+# --- Require password before proceeding ---
+if not check_password():
+    st.stop()
+
+
 st.title("Export Forecast Visualization by Country")
 
 # Upload Excel files
