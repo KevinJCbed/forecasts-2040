@@ -43,7 +43,7 @@ if merch_file and services_file:
     else:
         # Get list of countries
         countries = sorted(set(merch_df['iso3_d']).intersection(services_df['iso3_d']))
-        country = st.selectbox("Select a Country", countries)
+        country = st.selectbox("Select a Country", countries, index=countries.index("USA"))
 
         # Filter data by country
         merch_country = merch_df[merch_df['iso3_d'] == country].sort_values("year")
